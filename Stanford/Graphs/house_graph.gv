@@ -1,0 +1,25 @@
+digraph House{
+	rankdir=LR;
+    splines=line;
+    constraint=false;
+
+    F1 [label="Feature3"];
+    F2 [label="Feature4"];
+    F3 [label="Feature1"];
+    F4 [label="Feature2"];
+
+    bias -> F1;
+    bias -> F2;
+    bias -> F3;
+    bias -> F4;
+    
+    area -> F1;
+    area -> F2;
+    area -> F3;
+    area -> F4;
+
+    door -> F1;
+    door -> F2;
+    door -> F3;
+    door -> F4;
+}
