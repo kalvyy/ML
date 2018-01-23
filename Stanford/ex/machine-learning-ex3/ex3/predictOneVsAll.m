@@ -31,11 +31,10 @@ X = [ones(m, 1) X];
 %       
 
 
-%size(X)           16x3
-%size(all_theta)   4x3
+activation = sigmoid(X * all_theta');
+[unused, p] = max(activation, [], 2);
 
-h = sigmoid(X * all_theta')
-[void, p] = max(h, [], 2);
+
 
 % =========================================================================
 

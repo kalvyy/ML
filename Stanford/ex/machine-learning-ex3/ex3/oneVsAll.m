@@ -52,19 +52,17 @@ X = [ones(m, 1) X];
 
 
 
-%size(X)      16x3
-%size(y)      16x1
-%num_labels   4
-%lambda       0.1
-%all_theta    4x3
-
-
 options = optimset('GradObj', 'on', 'MaxIter', 50);
-for i = 1 : num_labels
-     [all_theta(i, :)] = ...
-         fmincg (@(t)(lrCostFunction(t, X, (y == i), lambda)), ...
-                 all_theta(i, :)', options);
+
+for class = 1 : num_labels 
+    [all_theta(class, :)] = ...
+        fmincg (@(t)(lrCostFunction(t, X, (y == class), lambda)), ...
+            all_theta(class, :)', options);
+
 end
+
+
+
 
 
 % =========================================================================

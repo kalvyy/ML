@@ -22,19 +22,19 @@ p = zeros(size(X, 1), 1);
 %
 
 
+activation = {};
+examples = size(X, 1);
 
-%size(Theta1)    4x3
-%size(Theta2)    4x5
-%size(X)         16x2
+X = [ones(examples, 1) X];
+activation{1} = [ones(examples, 1) sigmoid(X * Theta1')];
+activation{2} = sigmoid(activation{1} * Theta2');
 
-X = [ones(length(X), 1) X];
+[unused, p] = max(activation{2}, [], 2);
 
-a1 = sigmoid(X * Theta1');
-a1 = [ones(length(a1), 1) a1];
 
-a2 = sigmoid(a1 * Theta2');
 
-[d, p] = max(a2, [], 2);
+
+
 
 % =========================================================================
 

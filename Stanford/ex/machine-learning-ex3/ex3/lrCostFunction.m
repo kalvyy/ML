@@ -37,18 +37,20 @@ grad = zeros(size(theta));
 %
 
 
+%size(theta)        3x1
+%size(X)            20x3
 
-%size(theta) 3x1
-%size(X)     20x3
-%size(y)     20x1
+hypothesis_cost = sigmoid(X * theta);
+hypothesis_grad = hypothesis_cost - y;
 
-h = sigmoid(X * theta);
+J = -1.0 / m * sum(y .* log(hypothesis_cost) + (1 - y) .* log(1 - hypothesis_cost));
+J = J + lambda / (2 * m) * sum( [0; theta(2 : end) .^ 2] );
+grad = 1.0 / m * (X' * hypothesis_grad);
+grad = grad + lambda / m * [0; theta(2 : end)];
 
-J = (-1.0 / m) * sum(y .* log(h) + (1 - y) .* log(1 - h));
-J = J + (lambda / (2 * m)) * sum(theta(2:end) .^ 2);
 
-grad = (1.0 / m) * (X' * (h - y));
-grad = grad + (lambda / m) * [0; theta(2:end)];
+
+
 
 % =============================================================
 
