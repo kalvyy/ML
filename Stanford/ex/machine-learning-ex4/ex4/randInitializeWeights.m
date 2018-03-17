@@ -20,8 +20,7 @@ W = zeros(L_out, 1 + L_in);
 %
 
 
-epsilon = 0.12;
-W = rand(size(W)) * 2 * epsilon - epsilon;
+
 
 
 

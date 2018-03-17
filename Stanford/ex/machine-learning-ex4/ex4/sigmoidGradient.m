@@ -14,9 +14,9 @@ g = zeros(size(z));
 
 
 
-%size(z)        3x10
-activations = sigmoid(z);
-g = activations .* (1 - activations);
+
+activation = sigmoid(z);
+g  = activation .* (1 - activation);
 
 
 

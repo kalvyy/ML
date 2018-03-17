@@ -29,6 +29,7 @@ m = size(X, 1);
 J = 0;
 Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
+X = X';
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should complete the code by working through the
@@ -62,39 +63,30 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+y_labels = y' == (1 : num_labels)';
+    
+bias = ones(1, m);
+a1 = [bias; X];
+a2 = [bias; sigmoid(Theta1 * a1)];
+a3 = sigmoid(Theta2 * a2);
+
+J = (1 / m) * -sum(sum(y_labels .* log(a3) + (1 - y_labels) .* log(1 - a3)));
+J = J + (lambda/(2*m)) * (sum(sum(Theta1(:, 2:end) .^ 2)) ...
+        + sum(sum(Theta2(:, 2:end) .^ 2)));
+
+
+d3 = a3 - y_labels;
+d2 = Theta2' * d3 .* (a2 .* (1 - a2));
+Theta2_grad = (1 / m) * (d3 * a2');
+Theta1_grad = (1 / m) * (d2(2:end, :) * a1');
+
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + ...
+                        (lambda / m) * Theta2(:, 2:end);
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + ...
+                        (lambda / m) * Theta1(:, 2:end);
+
+
 % -------------------------------------------------------------
-%size(Theta1)               4x3
-%size(Theta2)               4x5
-%size(X)                    16x2
-%size(y_labels)             16x4
-
-%TEMPORARY SOLUTION
-
-bias = ones(m, 1);                  %Mx1
-a1 = [bias X];                      %16x3
-a2 = [bias sigmoid(a1 * Theta1')];   %16x5
-a3 = sigmoid(a2 * Theta2');          %16x4
-
-y_labels = y == (1 : num_labels);
-
-
-for i = 1 : num_labels
-    J = J + (-1.0 / m) * sum(y_labels(:, i) .* log(a3(:, i))...
-            + (1 - y_labels(:, i)) .* log(1 - a3(:, i)));
-end
-thetas = cell(1, 2);
-thetas{1} = Theta1;
-thetas{2} = Theta2;
-J = J + regularization_for_cost_function(thetas, lambda, m);
-
-d3 = a3 - y_labels;         %16x4
-d2 = (d3 * Theta2) .* (a2 .* (1 - a2));
-
-Theta1_grad = Theta1_grad + (1 / m) * (d2(:, 2:end)' * a1);
-Theta2_grad = Theta2_grad + (1 / m) * (d3' * a2);
-
-Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + (lambda / m) * Theta1(:, 2:end);
-Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + (lambda / m) * Theta2(:, 2:end);
 
 % =========================================================================
 
